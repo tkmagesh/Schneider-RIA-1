@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script src="jquery-1.10.2.js"></script>
+	<script>
+	$(function(){
+		$("#btnSample").on("click",function(){
+			console.log("button clicked");
+		});
+
+		$("#divContainer").on("click","li",function(){
+			console.log($(this).html());
+		});
+	});
+
+	</script>
+</head>
+<body>
+	<div id="divContainer">
+		<ul id="ulContainer">
+			<li id="Item1">Item-1</li>
+			<li>Item-2</li>
+			<li>Item-3</li>
+			<li>Item-4</li>
+			<li>Item-5</li>
+			<li>Item-6</li>
+			<li>Item-7</li>
+			<li>Item-8</li>
+			<li>Item-9</li>
+			<li>Item-10</li>
+		</ul>
+	</div>
+	<input type="button" value="Click Me" id="btnSample">
+</body>
+</html>

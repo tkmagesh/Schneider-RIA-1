@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Task Manager</title>
+	<style>
+		.completed{
+			color: red;
+			font-style: italic;
+			text-decoration: line-through;
+		}
+	</style>
+	<script src="jquery-1.10.2.js"></script>
+	<script>
+	(function(){
+		$(function(){
+			$("#btnAddTask").click(btnAddTaskClick);
+			$("#btnRemoveCompleted").click(btnRemoveCompletedClick);
+			$("#ulTaskList").on("click","li",toggleTaskItemCompletion);
+		});
+		function btnAddTaskClick(){
+				$("<li>")
+					.text($("#txtTask").val())
+					.appendTo("#ulTaskList")
+					.hide()
+					.slideDown('fast');
+				displayMessage('A new task is added');
+		}
+
+		function toggleTaskItemCompletion(){
+			$(this).toggleClass("completed");
+		}
+
+		function btnRemoveCompletedClick(){
+			$("#ulTaskList > li.completed").fadeOut('fast',function(){ $(this).remove()});
+			displayMessage('One or more completed tasks are removed');
+		}
+		function displayMessage(msg){
+			$("#divMessage")
+				.hide()
+				.html(msg)
+				.fadeIn(400).delay(3000).fadeOut(400);
+		}
+		function clearMessage(){
+			$("#divMessage").text('');
+		}
+	})();
+	</script>
+</head>
+<body>
+	<h1>Task Manager</h1>
+	<span>Task :</span>
+	<input type="text" name="" id="txtTask">
+	<input type="button" value="Add Task" id="btnAddTask">
+	<input type="button" value="Remove Completed" id="btnRemoveCompleted">
+	<ul id="ulTaskList">
+		<li>Task-1</li>
+		<li class="completed">Task-2</li>
+		<li>Task-3</li>
+		<li>Task-4</li>
+		<li>Task-5</li>
+		<li>Task-6</li>
+	</ul>
+	<div id="divMessage"></div>
+</body>
+</html>

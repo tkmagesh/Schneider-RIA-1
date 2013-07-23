@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Task Manager</title>
+	<style>
+		.completed{
+			color: red;
+			font-style: italic;
+			text-decoration: line-through;
+		}
+	</style>
+	<script src="jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="TaskStorage.js"></script>
+	<script>
+	var app = app || {};
+	(function(){
+		var taskStorage = new window.app.TaskStorage();
+		$(function(){
+			$("#btnAddTask").click(btnAddTaskClick);
+			$("#btnRemoveCompleted").click(btnRemoveCompletedClick);
+			$("#ulTaskList").on("click","li",toggleTaskItemCompletion);
+			var allTasks = taskStorage.getAllTasks();
+			for(var index in allTasks){
+				addTaskToUI(allTasks[index]);
+			}
+
+		});
+
+		
+		function btnAddTaskClick(){
+			var taskName = $("#txtTask").val();
+			var taskId = taskStorage.addTask(taskName);
+			addTaskToUI({taskId : taskId, taskName : taskName});
+		}
+		function addTaskToUI(task){
+			$("<li>")
+				.text(task.taskName)
+				.attr("task-id",task.taskId)
+				.appendTo("#ulTaskList")
+				.hide()
+				.slideDown('fast');
+
+			displayMessage('A new task is added');
+		}
+
+		
+
+		function toggleTaskItemCompletion(){
+			$(this).toggleClass("completed");
+		}
+
+		function btnRemoveCompletedClick(){
+			$("#ulTaskList > li.completed")
+				.each(function(index,elem){
+					taskStorage.removeTask($(elem).attr("task-id"))
+				})
+			.fadeOut('fast',function(){ $(this).remove()});
+			displayMessage('One or more completed tasks are removed');
+		}
+		
+		function displayMessage(msg){
+			$("#divMessage")
+				.hide()
+				.html(msg)
+				.fadeIn(400).delay(3000).fadeOut(400);
+		}
+		function clearMessage(){
+			$("#divMessage").text('');
+		}
+	})();
+	</script>
+</head>
+<body>
+	<div>
+		<i>Todo : Subscribe to the window.storage event and write the code to keep the task items synchronized across multiple windows</i>
+	</div>
+	<h1>Task Manager</h1>
+	<span>Task :</span>
+	<input type="text" name="" id="txtTask">
+	<input type="button" value="Add Task" id="btnAddTask">
+	<input type="button" value="Remove Completed" id="btnRemoveCompleted">
+	<ul id="ulTaskList">
+		
+	</ul>
+	<div id="divMessage"></div>
+</body>
+</html>
