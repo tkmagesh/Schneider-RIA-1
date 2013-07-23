@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Task Manager</title>
+	<style>
+		.completed{
+			color: red;
+			font-style: italic;
+			text-decoration: line-through;
+		}
+	</style>
+	<script>
+	(function(){
+		function initialize(){
+			var i,taskItemCount,ulTaskList, taskItem;
+			document.getElementById("btnAddTask").addEventListener("click",btnAddTaskClick);
+			document.getElementById("btnRemoveCompleted").addEventListener("click", btnRemoveCompletedClick);
+			var ulTaskList = document.getElementById("ulTaskList");
+			for(i=0,taskItemCount=ulTaskList.children.length-1;i <= taskItemCount;i++){
+				taskItem = ulTaskList.children[i];
+				taskItem.addEventListener("click",toggleTaskItemCompletion);
+			}
+		}
+		function btnAddTaskClick(){
+			var taskName = document.getElementById("txtTask").value,
+				taskList = document.getElementById("ulTaskList");
+				newTaskItem = document.createElement("li");
+			newTaskItem.innerText = taskName;
+			newTaskItem.addEventListener("click",toggleTaskItemCompletion);
+			taskList.appendChild(newTaskItem);
+			displayMessage("A new task [" + taskName + "] is added");
+		}
+		function toggleTaskItemCompletion(){
+			var liTaskItem = this;
+			if (liTaskItem.classList.contains("completed")){
+				liTaskItem.classList.remove("completed");
+			} else {
+				liTaskItem.classList.add("completed");
+			}
+		}
+		function btnRemoveCompletedClick(){
+			var i,taskItem,ulTaskList,taskItemCount, completionCount = 0;
+			ulTaskList = document.getElementById("ulTaskList");
+			taskItemCount = ulTaskList.children.length;
+			for(i=taskItemCount-1;i>=0;i--){
+				taskItem = ulTaskList.children[i];
+				if (taskItem.classList.contains("completed")){
+					completionCount++;
+					ulTaskList.removeChild(taskItem);
+				}
+			}
+			displayMessage(completionCount + " tasks are removed");
+		}
+		function displayMessage(msg){
+			document.getElementById("divMessage").innerText = msg;
+			setTimeout(clearMessage,5000);
+		}
+		function clearMessage(){
+			document.getElementById("divMessage").innerText = "";
+		}
+		window.addEventListener("DOMContentLoaded",initialize);
+	})();
+	</script>
+</head>
+<body>
+	<h1>Task Manager</h1>
+	<span>Task :</span>
+	<input type="text" name="" id="txtTask">
+	<input type="button" value="Add Task" id="btnAddTask">
+	<input type="button" value="Remove Completed" id="btnRemoveCompleted">
+	<ul id="ulTaskList">
+		<li>Task-1</li>
+		<li class="completed">Task-2</li>
+		<li>Task-3</li>
+	</ul>
+	<div id="divMessage"></div>
+</body>
+</html>
