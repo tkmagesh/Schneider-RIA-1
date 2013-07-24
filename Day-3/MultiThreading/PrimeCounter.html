@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Prime Counter</title>
+	<script>
+	(function(){
+		window.addEventListener("DOMContentLoaded",function(){
+			document.getElementById("btnFindPrimeCount").addEventListener("click",btnFindPrimeCountClick);
+		});
+		function btnFindPrimeCountClick(){
+			//Fill it
+		}
+		function displayMessage(msg){
+			document.getElementById("divMessage").innerHTML += msg + "<br/>";
+		}
+	})();
+	</script>
+</head>
+<body>
+	<h1>Prime Counter</h1>
+	<span>Start :</span>
+	<input type="text" name="" id="txtStart">
+	<span>End :</span>
+	<input type="text" name="" id="txtEnd">
+	<input type="button" value="Find Prime Count" id="btnFindPrimeCount">
+	<div id="divMessage"></div>
+</body>
+</html>

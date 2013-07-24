@@ -1,0 +1,39 @@
+<!--
+	Web Worker
+		- Worker
+			-postMessage (Method)
+			-message (Event)
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Web Workers Demo</title>
+	<script>
+	(function(){
+		window.addEventListener("DOMContentLoaded",function(){
+			document.getElementById("btnStart").addEventListener("click",btnStartClick);
+		})
+		function btnStartClick(){
+			displayMessage("Work Started");
+			var worker = new Worker("ComplexTask.js");
+			worker.addEventListener("message",function(msgEvt){
+				console.log(msgEvt);
+				if (msgEvt.data === "completed"){
+					displayMessage("Work Completed");
+				}
+			});
+			worker.postMessage("start");
+		}
+		function displayMessage(msg){
+			document.getElementById("divMessage").innerHTML += msg +"<br/>";
+		}
+	})();
+	</script>
+</head>
+<body>
+	<input type="button" value="Start" id="btnStart">
+	<input type="text" name="" id="">
+	<div id="divMessage"></div>
+</body>
+</html>

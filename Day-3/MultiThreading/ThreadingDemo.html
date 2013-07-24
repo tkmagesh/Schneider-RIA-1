@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Threading Demo</title>
+	<script>
+	(function(){
+		window.addEventListener("DOMContentLoaded",function(){
+			document.getElementById("btnStart").addEventListener("click",btnStartClick);
+
+		})
+		function btnStartClick(){
+			displayMessage("Work Started");
+/*			setTimeout(function(){
+				doWork();
+				
+			},1);
+*/			
+			doWork(function(){
+				displayMessage("Work Completed");	
+			});
+		}
+		function displayMessage(msg){
+			document.getElementById("divMessage").innerHTML += msg + "<br/>";
+		}
+		function doWork(completedCallBack){
+			var limit = 1000, count = 0, callback = completedCallBack;
+				function workChunck(){
+					for(var j=0;j<1000;j++)
+						for(var k=0;k<100;k++)
+						{}	
+					count++;
+					if (count < limit){
+						console.log("chunk # " , count);
+						setTimeout(workChunck,1);
+					} else {
+						callback();
+					}
+				};
+				workChunck();
+		}
+	})();
+	</script>
+</head>
+<body>
+	<input type="button" value="Start" id="btnStart">
+	<input type="text" name="" id="">
+	<div id="divMessage"></div>
+</body>
+</html>
