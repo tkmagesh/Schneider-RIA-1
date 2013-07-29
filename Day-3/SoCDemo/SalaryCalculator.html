@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Salary Calculator</title>
+	<script src="jquery-1.10.2.js"></script>
+	<script src="SalaryCalculatorModel.js"></script>
+	<script>
+	var app = app || {};
+
+	function SalaryCalculatorView(model,templateId){
+		this.calculator = model;
+		this.templateId = templateId;
+
+		this.initialize = function(){
+			this.root = $(this.templateId).html();
+			$root = this.$root = $(this.root);
+			this.$root.on('click','#btnCalculate',this.onBtnCalculateClick);
+			this.$root.on('change','#txtBasic',this.onTxtBasicChange);
+			this.$root.on('change','#txtHra',this.onTxtHraChange);
+			this.$root.on('change','#txtDa',this.onTxtDaChange);
+			this.$root.on('change','#rangeTax',this.onTaxChange);
+			this.$root.on('change','input[type=text]',this.onTextChange);
+
+			this.calculator.onChange = (function(context){
+				var $root = context;
+				return function(member){
+					if (member === "basic") $root.find('#txtBasic').val(calculator.basic());
+					if (member === "hra") $root.find('#txtHra').val(calculator.hra());
+					if (member === "basic") $root.find('#txtDa').val(calculator.da());
+					if (member === "tax") {
+						$root.find('#rangeTax').val(calculator.tax());
+						$root.find('#spanTax').text(calculator.tax());
+					}
+					if (member === "net") $root.find('#divSalary').html(calculator.net());
+				}
+			})(this.$root);	
+			this.onBtnCalculateClick = function(){
+				this.calculator.calculate();
+			};
+			this.onTxtBasicChange = function(){
+				var basic = parseInt($root.find('#txtBasic').val());
+				this.calculator.basic(basic);
+			};
+			this.onTxtHraChange = function(){
+				var	hra = parseInt(this.$root.find('#txtHra').val());
+				this.calculator.hra(hra);
+			};
+			this.onTxtDaChange = function(){
+				var	da = parseInt(this.$root.find('#txtDa').val());
+				this.calculator.da(da);
+			};
+			this.onTaxChange = function(){
+				var	tax = parseInt(this.$root.find('#rangeTax').val());
+				this.calculator.tax(tax);
+			};
+		}
+	}
+
+
+	$(function(){
+		window.calculator = new app.SalaryCalculator();
+		var view = new SalaryCalculatorView(window.calculator,"#calculatorTemplate");
+		view.initialize();
+		$("#content").append(view.$root);
+	});
+	</script>
+	<script type="text/template" id="calculatorTemplate">
+		<div>
+		<div><span>Basic :</span><input type="text" name="" id="txtBasic"></div>
+		<div><span>HRA :</span><input type="text" name="" id="txtHra"></div>
+		<div><span>DA :</span><input type="text" name="" id="txtDa"></div>
+		<div><span>Tax :</span><input type="range" name="" id="rangeTax" min="10" max="50"><span id="spanTax"></span></div>
+		<input type="button" value="Calculate" id="btnCalculate">
+		<div id="divSalary"></div>
+		</div>
+	</script>
+</head>
+<body>
+	<div id="content">
+		
+	</div>
+</body>
+</html>

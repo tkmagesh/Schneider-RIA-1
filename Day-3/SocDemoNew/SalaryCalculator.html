@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Salary Calculator</title>
+	<script src="jquery-1.10.2.js"></script>
+	<script src="SalaryCalculatorModel.js"></script>
+	<script src="SalaryCalculatorView.js"></script>
+	<script>
+	var utils = {
+		any : function(list,criteria){
+			for(var i=0;i<list.length;i++)
+				if (criteria(list[i])) return true;
+			return false;
+		}
+	};
+	var app = app || {};
+	$(function(){
+		window.model = new app.SalaryCalculator();
+		window.view = new app.SalaryCalculatorView(model);	
+		window.view.initialize();
+		$("#content").append(window.view.$root);
+	});
+	</script>
+	<script type="text/template" id="calculatorTemplate">
+		<div><span>Basic :</span><input type="text" name="" id="txtBasic"></div>
+		<div><span>Hra :</span><input type="text" name="" id="txtHra"></div>
+		<div><span>Da :</span><input type="text" name="" id="txtDa"></div>
+		<div><span>Tax :</span><input type="range" name="" id="rangeTax" min="10" max="50"><span id="spanTax"></span></div>
+		<div id="divSalary"></div>
+	</script>
+</head>
+<body>
+	<div id="content"></div>	
+</body>
+</html>

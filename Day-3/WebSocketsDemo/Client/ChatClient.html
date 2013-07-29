@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Chat Client</title>
+	<script>
+	(function(){
+		window.addEventListener("DOMContentLoaded",function(){
+			var socket = new WebSocket("ws://localhost:9090/SchniederServer");
+			socket.addEventListener('message',function(msgEvt){
+				displayMessage(msgEvt.data);
+			});
+			document.getElementById("btnSend").addEventListener("click",function(){
+				var msg = document.getElementById("txtMessage").value;
+				socket.send(msg);
+			});
+			function displayMessage(msg){
+				document.getElementById("divMessages").innerHTML += msg +"<br/>";
+			}
+		});
+	})();
+	</script>
+</head>
+<body>
+	<input type="text" name="" id="txtMessage">
+	<input type="button" value="Send" id="btnSend">
+	<div id="divMessages"></div>
+</body>
+</html>
